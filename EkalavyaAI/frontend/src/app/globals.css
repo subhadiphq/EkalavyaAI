@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', sans-serif;
+    --font-caveat: 'Caveat', cursive;
+  }
+  * { @apply box-border; }
+  body { @apply font-sans text-slate-900 antialiased; }
+}
+
+@layer utilities {
+  .font-caveat { font-family: var(--font-caveat); }
+  .font-inter  { font-family: var(--font-inter);  }
+  .line-clamp-1 { overflow:hidden; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; }
+  .line-clamp-2 { overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:#f1f5f9; }
+::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }

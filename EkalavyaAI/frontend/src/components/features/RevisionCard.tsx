@@ -1,0 +1,1 @@
+export { RevisionCard } from "./index";
