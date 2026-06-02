@@ -31,6 +31,7 @@ class FeedbackRequest(BaseModel):
 
 
 @router.get("/questions")
+@router.get("/pyq")  # alias — same handler (matches /practice/pyq spec)
 async def get_practice_questions(
     exam: str = Query(...),
     chapter_id: Optional[str] = Query(None),
@@ -41,7 +42,7 @@ async def get_practice_questions(
     limit: int = Query(10, le=50),
     current_user=Depends(get_current_user),
 ):
-    """Get filtered PYQ practice questions."""
+    """Get filtered PYQ practice questions (also at ``/practice/pyq``)."""
     await check_plan_limit(current_user, "pyq_questions")
 
     try:
