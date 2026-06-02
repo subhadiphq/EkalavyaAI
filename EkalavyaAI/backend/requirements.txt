@@ -6,7 +6,7 @@
 fastapi==0.111.0
 uvicorn[standard]==0.29.0
 gunicorn==22.0.0
-pydantic==2.7.1
+pydantic>=2.7.4,<3.0.0         # >=2.7.4 required by langsmith on py3.12.4+
 pydantic-settings==2.2.1
 
 # ── AI / LLM ─────────────────────────────────────────────────
@@ -55,10 +55,12 @@ resend==1.1.0
 
 # ── Monitoring ───────────────────────────────────────────────
 sentry-sdk[fastapi]==2.3.1
-langsmith==0.1.67
+langsmith>=0.1.112,<0.2.0     # required by langchain-core 0.2.x
 
 # ── Payment ──────────────────────────────────────────────────
-cashfree-pg==3.2.4             # Cashfree payment gateway
+# Cashfree is integrated via its REST API (see services/payment_service.py)
+# using httpx, so the cashfree-pg SDK is intentionally not required here.
+# The SDK pins sentry-sdk<1.33 which conflicts with sentry-sdk 2.x.
 
 # ── Utilities ────────────────────────────────────────────────
 httpx==0.27.0

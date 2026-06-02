@@ -5,6 +5,7 @@
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { ReadinessData, Note, Revision } from "../types";
 
 export interface User {
   id: string;
@@ -64,13 +65,13 @@ export interface StudentProfile {
 
 interface StudentState {
   profile: StudentProfile | null;
-  progress: Record<string, unknown> | null;
-  recentNotes: unknown[];
-  revisions: unknown[];
+  progress: ReadinessData | null;
+  recentNotes: Note[];
+  revisions: Revision[];
   setProfile: (p: StudentProfile) => void;
-  setProgress: (p: Record<string, unknown>) => void;
-  setRecentNotes: (n: unknown[]) => void;
-  setRevisions: (r: unknown[]) => void;
+  setProgress: (p: ReadinessData) => void;
+  setRecentNotes: (n: Note[]) => void;
+  setRevisions: (r: Revision[]) => void;
   reset: () => void;
 }
 
