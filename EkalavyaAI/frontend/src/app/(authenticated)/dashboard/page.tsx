@@ -93,13 +93,13 @@ export default function DashboardPage() {
             {
               icon: <BookOpen size={20} className="text-blue-600" />,
               label: "Chapters Studied",
-              value: progress?.chapters_studied || 0,
+              value: String(progress?.chapters_studied || 0),
               bg: "bg-blue-50",
             },
             {
               icon: <Target size={20} className="text-green-600" />,
               label: "PYQ Solved",
-              value: progress?.pyq_solved || 0,
+              value: String(progress?.pyq_solved || 0),
               bg: "bg-green-50",
             },
             {
@@ -111,7 +111,7 @@ export default function DashboardPage() {
             {
               icon: <Award size={20} className="text-purple-600" />,
               label: "Credits",
-              value: progress?.credits || 0,
+              value: String(progress?.credits || 0),
               bg: "bg-purple-50",
             },
           ].map((stat) => (
@@ -128,7 +128,7 @@ export default function DashboardPage() {
           {/* Left: Readiness + Actions */}
           <div className="lg:col-span-1 space-y-4">
             <ReadinessGauge
-              score={progress?.readiness_score || 0}
+              score={typeof progress?.readiness_score === 'number' ? progress.readiness_score : 0}
               exam={profile?.exam_targets?.[0] || "CA_FOUNDATION"}
             />
 

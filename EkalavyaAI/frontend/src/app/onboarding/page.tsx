@@ -1,16 +1,18 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { studentAPI } from "@/lib/api";
 
 const STEPS = ["Choose Exam", "Your Level", "Exam Date", "Language", "Study Style"];
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuthStore();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const selectedPlan = searchParams.get("plan") || "FREE";
   const [data, setData] = useState({
     exam_targets: [] as string[],
     level: "AVERAGE",
@@ -161,5 +163,20 @@ export default function OnboardingPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <OnboardingContent />
+    </Suspense>
   );
 }
