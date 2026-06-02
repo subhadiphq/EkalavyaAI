@@ -42,6 +42,7 @@ class ChatMessageRequest(BaseModel):
 
 
 @router.post("/message")
+@router.post("/stream")  # alias — same SSE streaming handler
 async def send_message(
     request: ChatMessageRequest,
     current_user=Depends(get_current_user),
@@ -49,6 +50,8 @@ async def send_message(
     """
     Send a doubt/question and receive streamed AI response via SSE.
     Uses Teacher Agent (Claude 3.5 Sonnet) for exam-quality answers.
+
+    Available at both ``/chat/message`` and ``/chat/stream`` (alias).
     """
     await check_plan_limit(current_user, "general_chat")
 

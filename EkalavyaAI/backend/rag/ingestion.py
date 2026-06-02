@@ -86,6 +86,29 @@ class PDFIngestionPipeline:
         # Step 4: Embed + upsert in batches
         await self._embed_and_upsert(all_chunks)
 
+    async def analyze_pdf(self, pdf_path: str, exam: str, subject: str) -> dict:
+        """
+        Parse + chunk a PDF *without* embedding or upserting.
+
+        Useful for dry-runs / validation when Pinecone, ElasticSearch or
+        embedding credentials are unavailable. Returns counts and the detected
+        chapter names so callers can preview an ingestion run.
+        """
+        raw_pages = await self._parse_pdf(pdf_path)
+        chapters = self._detect_chapters(raw_pages)
+        chunk_count = 0
+        for _chapter, pages in chapters.items():
+            text = "\n\n".join(p["text"] for p in pages)
+            chunk_count += sum(1 for _ in self._semantic_chunk(text))
+        return {
+            "file": Path(pdf_path).name,
+            "exam": exam,
+            "subject": subject,
+            "pages": len(raw_pages),
+            "chapters": list(chapters.keys()),
+            "chunks": chunk_count,
+        }
+
     async def _parse_pdf(self, pdf_path: str) -> list:
         """Parse PDF with PyMuPDF, use Gemini Vision for complex pages."""
         import fitz  # PyMuPDF
