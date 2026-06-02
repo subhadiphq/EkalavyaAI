@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { authAPI } from "@/lib/api";
 
-export default function SignupPage() {
+function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setAuth } = useAuthStore();
@@ -23,7 +23,8 @@ export default function SignupPage() {
     try {
       const res = await authAPI.signup(form);
       setAuth(res.data.user, res.data.access_token);
-      router.push("/onboarding");
+      const plan = searchParams.get("plan");
+      router.push(`/onboarding${plan ? `?plan=${plan}` : ""}`);
     } catch (err) {
       const e = err as { response?: { data?: { detail?: string } } };
       setError(e.response?.data?.detail || "Registration failed. Please try again.");
@@ -68,5 +69,20 @@ export default function SignupPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <SignupContent />
+    </Suspense>
   );
 }
