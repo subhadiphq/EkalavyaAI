@@ -13,7 +13,18 @@ const config: Config = {
         caveat: ["var(--font-caveat)", "cursive"],
       },
       colors: {
-        brand: { 50: "#eff6ff", 600: "#1e40af", 700: "#1d3a9e" },
+        brand: { 
+          bg: "#0F0B1E",
+          nav: "#1A0F3C",
+          purple: "#4C1D95",
+          orange: "#F97316",
+          gold: "#FBBF24",
+          textLight: "#FFFFFF",
+          textBody: "#E5E7EB",
+        },
+      },
+      backgroundColor: {
+        "card-dark": "rgba(255,255,255,0.05)",
       },
     },
   },
