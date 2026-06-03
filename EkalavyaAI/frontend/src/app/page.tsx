@@ -57,13 +57,13 @@ export default function LandingPage() {
           >
             Start Learning Free →
           </Link>
-          <button
-            onClick={() => scrollToSection("how-it-works")}
+          <Link
+            href="/demo"
             className="px-8 py-4 rounded-xl font-semibold border-2 transition-colors hover:border-orange-400"
             style={{ borderColor: "#4C1D95", color: "#E5E7EB" }}
           >
             Try Demo
-          </button>
+          </Link>
         </div>
         <p className="text-xs" style={{ color: "#9CA3AF" }}>No credit card required · Free plan forever</p>
       </section>
@@ -276,18 +276,23 @@ export default function LandingPage() {
         </h2>
         <div className="grid sm:grid-cols-3 gap-6 mb-12">
           {[
-            { plan:"Free", price:"₹0", features:["3 chapters/month","5 PYQ/day","1 exam"], highlight: false },
-            { plan:"Basic", price:"₹299/mo", features:["15 chapters/month","Unlimited PYQ","Notes download"], highlight: false },
-            { plan:"Pro", price:"₹599/mo", features:["Unlimited everything","5 exams","5 languages","Weekly AI report"], highlight: true },
+            { plan:"Free", price:"₹0", planKey: "free", features:["3 chapters/month","5 PYQ/day","1 exam"], highlight: false },
+            { plan:"Basic", price:"₹299/mo", planKey: "basic", features:["15 chapters/month","Unlimited PYQ","Notes download"], highlight: false },
+            { plan:"Pro", price:"₹599/mo", planKey: "pro", features:["Unlimited everything","5 exams","5 languages","Weekly AI report"], highlight: true },
           ].map((p) => (
             <div 
               key={p.plan}
-              className={`rounded-2xl p-6 border-2 ${p.highlight ? "scale-105" : ""}`}
+              className={`rounded-2xl p-6 border-2 card-interactive ${p.highlight ? "scale-105" : ""}`}
               style={{ 
                 backgroundColor: p.highlight ? "rgba(249, 115, 22, 0.2)" : "rgba(255,255,255,0.05)",
                 borderColor: p.highlight ? "#F97316" : "#4C1D95",
               }}
             >
+              {p.highlight && (
+                <div className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-2" style={{ backgroundColor: "#F97316", color: "#FFFFFF" }}>
+                  Most Popular
+                </div>
+              )}
               <p className="font-bold text-lg mb-2" style={{ color: "#FFFFFF" }}>{p.plan}</p>
               <p className="text-3xl font-bold mb-6" style={{ color: "#F97316" }}>{p.price}</p>
               <ul className="space-y-2 mb-6">
@@ -295,8 +300,9 @@ export default function LandingPage() {
                   <li key={f} className="text-sm" style={{ color: "#E5E7EB" }}>✓ {f}</li>
                 ))}
               </ul>
-              <button
-                className="w-full py-2 rounded-lg font-semibold transition-all"
+              <Link
+                href={`/auth/signup?plan=${p.planKey}`}
+                className="block w-full py-2 rounded-lg font-semibold transition-all text-center"
                 style={{ 
                   backgroundColor: p.highlight ? "#F97316" : "rgba(249, 115, 22, 0.2)",
                   color: p.highlight ? "#FFFFFF" : "#F97316",
@@ -304,7 +310,7 @@ export default function LandingPage() {
                 }}
               >
                 Get Started
-              </button>
+              </Link>
             </div>
           ))}
         </div>
